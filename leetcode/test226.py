@@ -10,6 +10,9 @@
 # https://leetcode.com/problems/invert-binary-tree/description/
 
 # Definition for a binary tree node.
+from nowcoder.utils import create_tree
+
+
 class TreeNode(object):
     def __init__(self, x):
         self.val = x
@@ -29,24 +32,6 @@ class Solution(object):
         self.invertTree(root.left)
         self.invertTree(root.right)
         return root
-
-
-def create_tree(nums):
-    if not nums:
-        return None
-    root = TreeNode(0)
-    index = 0
-    queue = [root]
-    while index < len(nums):
-        node = queue.pop(0)
-        node.val = nums[index]
-        index += 1
-        node.left = TreeNode(0)
-        node.right = TreeNode(0)
-        queue.append(node.left)
-        queue.append(node.right)
-    return root
-
 
 t = create_tree([4, 2, 7, 1, 3, 6, 9])
 t = Solution().invertTree(t)
