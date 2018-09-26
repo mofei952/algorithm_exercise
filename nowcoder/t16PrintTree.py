@@ -30,8 +30,6 @@ class Solution:
             ret[level].append(node[0].val)
             t.append([node[0].left, node[1] + 1])
             t.append([node[0].right, node[1] + 1])
-        for i in ret:
-            pass
         return ret
 
 

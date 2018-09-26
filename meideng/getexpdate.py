@@ -8,54 +8,46 @@
 
 
 def isLeapYear(year):
+    """判断参数year的年份是否为闰年"""
     return year % 100 != 0 and year % 4 == 0 or year % 400 == 0
 
 
 def isLegalData(year, month, day):
+    """判断年月日参数日否合法"""
     days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     # 若为闰年，2月改为29天
     if isLeapYear(year):
         days[2] = 29
-    # year参数不合法
-    if year < 0:
-        return False
-    # month参数不合法
-    if month < 1 or month > 12:
-        return False
-    # day参数不合法
-    if day < 1 or day > days[month]:
-        return False
-    return True
+    # 参数合法性检查
+    return year >= 1 and 1 <= month <= 12 and 1 <= day <= days[month]
+
 
 def getExpirationDate(year, month, day):
+    """根据预定的年月日，返回预定一个月之后到期的时间"""
     # 参数类型错误，必须为int
     if not isinstance(year, int) or not isinstance(month, int) or not isinstance(day, int):
-        raise Exception('parameter type is error, must be int')
+        raise TypeError('getExpirationDate() args must be int')
     # 不合法的日期
     if not isLegalData(year, month, day):
-        raise Exception('parameter is illegal')
-    # 每个月的天数(平年)
+        raise ValueError('getExpirationDate() args is illegal')
     days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    # 订购时长为1个月
-    add_month = 1
-    # 到期年份
+    add_month = 1   # 订购时长为1个月
     exp_year = year + (month - 1 + add_month) // 12
-    # 到期月份
     exp_month = (month - 1 + add_month) % 12 + 1
     # 若到期月份为2月 且 预定日大于28 且 到期年份为闰年，则修改2月份的天数
     if exp_month == 2 and day > 28 and isLeapYear(exp_year):
         days[2] = 29
-    # 一般情况下到期日和预定日相同，当到期月的天数小于预定日，取到期月的的最后一天，
+    # 一般情况下到期日和预定日相同
+    # 当到期月的天数小于预定日，取到期月的的最后一天
     # 即取到期月的天数和预定日中小的值
     exp_day = min(days[exp_month], day)
     return [exp_year, exp_month, exp_day]
 
-
 # 参数不合法测试
-# print(getExpirationDate(1.5, 2, 29)) # parameter type is error, must be int
-# print(getExpirationDate(-1, 2, 29))  # parameter is illegal
-# print(getExpirationDate(2017, 13, 29))  # parameter is illegal
-# print(getExpirationDate(2017, 2, 29))  # parameter is illegal
+# print(getExpirationDate(1.5, 2, 29)) # TypeError: getExpirationDate() args must be int
+# print(getExpirationDate(-1, 2, 29))  # ValueError: getExpirationDate() args is illegal
+# print(getExpirationDate(2017, 13, 29))  # ValueError: getExpirationDate() args is illegal
+# print(getExpirationDate(2017, 2, 29))  # ValueError: getExpirationDate() args is illegal
 # 一般情况测试
 print(getExpirationDate(2017, 1, 27))  # [2017, 2, 27]
 # 到期月天数小于预定日 测试
