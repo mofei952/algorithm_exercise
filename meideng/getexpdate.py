@@ -31,7 +31,7 @@ def getExpirationDate(year, month, day):
     if not isLegalData(year, month, day):
         raise ValueError('getExpirationDate() args is illegal')
     days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    add_month = 1   # 订购时长为1个月
+    add_month = 1  # 订购时长为1个月
     exp_year = year + (month - 1 + add_month) // 12
     exp_month = (month - 1 + add_month) % 12 + 1
     # 若到期月份为2月 且 预定日大于28 且 到期年份为闰年，则修改2月份的天数
@@ -42,6 +42,45 @@ def getExpirationDate(year, month, day):
     # 即取到期月的天数和预定日中小的值
     exp_day = min(days[exp_month], day)
     return [exp_year, exp_month, exp_day]
+
+
+def getPeriodTime2(year, month, day):
+    days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    add_month = 1
+    exp_year = year + (month - 1 + add_month) // 12
+    exp_month = (month - 1 + add_month) % 12 + 1
+    if exp_month == 2 and day > 28 and isLeapYear(exp_year):
+        days[2] = 29
+    if days[exp_month] < day:
+        return days[month] - day + days[exp_month]
+    else:
+        return days[month]
+
+
+def getPeriodTime(year, month, day, n):
+    days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    add_month = n
+    exp_year = year + (month - 1 + add_month) // 12
+    exp_month = (month - 1 + add_month) % 12 + 1
+    if exp_month == 2 and day > 28 and isLeapYear(exp_year):
+        days[2] = 29
+    sum = 0
+    for i in range(month + 1, month + n):
+        year2 = year + (i - 1) // 12
+        month2 = (i - 1) % 12 + 1
+        if month2 == 2:
+            if isLeapYear(year2):
+                sum += 29
+            else:
+                sum += 28
+        else:
+            sum += days[month2]
+    if days[exp_month] < day:
+        sum += days[month] - day + days[exp_month]
+    else:
+        sum += days[month]
+    return sum
+
 
 # 参数不合法测试
 # print(getExpirationDate(1.5, 2, 29)) # TypeError: getExpirationDate() args must be int
@@ -62,3 +101,5 @@ print(getExpirationDate(2020, 1, 31))  # [2020, 2, 29]  2020年为闰年，2月�
 print(getExpirationDate(2100, 1, 31))  # [2100, 2, 28]  2100年为平年，2月只有28天
 # 跨年情况测试
 print(getExpirationDate(1999, 12, 31))  # [2000, 1, 31]
+
+print(getPeriodTime(2017, 10, 31, 2))
