@@ -20,6 +20,7 @@ return [0, 1].
 class Solution:
     def twoSum(self, nums, target):
         """
+        和为target的两个数字的下标
         :type nums: List[int]
         :type target: int
         :rtype: List[int]

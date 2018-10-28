@@ -36,33 +36,28 @@ class ListNode:
 class Solution:
     def addTwoNumbers(self, l1, l2):
         """
-        对应位置相加，超过十进行进位操作
+        将两个链表形式的数字相加
         :type l1: ListNode
         :type l2: ListNode
         :rtype: ListNode
         """
-        result = None
         t1 = l1
         t2 = l2
-        r = None
+        cur = head = ListNode(0)
         d = 0
         while t1 or t2:
-            if not result:
-                r = result = ListNode(0)
-            else:
-                r.next = ListNode(0)
-                r = r.next
+            cur.next = ListNode(0)
+            cur = cur.next
             val1 = t1.val if t1 else 0
             val2 = t2.val if t2 else 0
-            d, r.val = divmod(val1 + val2 + d, 10)
+            d, cur.val = divmod(val1 + val2 + d, 10)
             if t1:
                 t1 = t1.next
             if t2:
                 t2 = t2.next
         if d:
-            r.next = ListNode(0)
-            r.next.val = d
-        return result
+            cur.next = ListNode(d)
+        return head.next
 
 
 if __name__ == '__main__':

@@ -30,6 +30,7 @@ Explanation: The answer is "wke", with the length of 3.
 class Solution:
     def lengthOfLongestSubstring(self, s):
         """
+        最长不重复子串
         :type s: str
         :rtype: int
         """
