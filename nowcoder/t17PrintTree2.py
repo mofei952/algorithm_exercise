@@ -8,7 +8,7 @@
 
 # 按之字形顺序打印二叉树
 # https://www.nowcoder.com/practice/91b69814117f4e8097390d107d2efbe0?tpId=13&tqId=11212&tPage=2&rp=2&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking
-from nowcoder.utils import create_tree
+from utils import create_tree
 
 
 class Solution:

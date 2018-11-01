@@ -12,7 +12,7 @@
 #         self.val = x
 #         self.left = None
 #         self.right = None
-from nowcoder.utils import create_tree
+from utils import create_tree
 
 
 class Solution:

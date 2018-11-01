@@ -8,7 +8,7 @@
 
 # 把二叉树打印成多行
 # https://www.nowcoder.com/practice/445c44d982d04483b04a54f298796288?tpId=13&tqId=11213&tPage=2&rp=2&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking
-from nowcoder.utils import create_tree
+from utils import create_tree
 
 
 class Solution:

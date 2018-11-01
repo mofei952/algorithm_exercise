@@ -10,7 +10,7 @@
 # https://leetcode.com/problems/invert-binary-tree/description/
 
 # Definition for a binary tree node.
-from nowcoder.utils import create_tree
+from utils import create_tree
 
 
 class TreeNode(object):
