@@ -36,9 +36,10 @@ class TreeNode:
                 queue.append(node.right)
         for i in range(level + 1):
             s = ','.join(str(node.val).center(4, '-') if node else 'None' for node in res[i])
-            print(s.center(2**level*5))
+            print(s.center(2 ** level * 5))
             print()
         return ''
+
 
 def create_tree(list):
     if not list:
@@ -64,6 +65,6 @@ def print_time(func):
         t1 = time.time()
         res = func(*args, **kwargs)
         t2 = time.time()
-        print(t2-t1)
+        print(func.__name__, t2 - t1)
         return res
     return inner
