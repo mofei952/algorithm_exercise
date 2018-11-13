@@ -10,6 +10,31 @@ from collections import defaultdict
 import time
 
 
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+    @classmethod
+    def create_linkedlist(cls, nums):
+        if not nums:
+            return None
+        root = cls(nums[0])
+        temp = root
+        for i in nums[1:]:
+            temp.next = cls(i)
+            temp = temp.next
+        return root
+
+    def __str__(self):
+        list = [self.val]
+        t = self
+        while t.next:
+            t = t.next
+            list.append(t.val)
+        return '->'.join(str(i) for i in list)
+
+
 class TreeNode:
     def __init__(self, x):
         self.val = x
@@ -67,4 +92,5 @@ def print_time(func):
         t2 = time.time()
         print(func.__name__, t2 - t1)
         return res
+
     return inner
