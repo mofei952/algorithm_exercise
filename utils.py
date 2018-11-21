@@ -16,7 +16,7 @@ class ListNode(object):
         self.next = None
 
     @classmethod
-    def create_linkedlist(cls, nums):
+    def create_linked_list(cls, nums):
         if not nums:
             return None
         root = cls(nums[0])

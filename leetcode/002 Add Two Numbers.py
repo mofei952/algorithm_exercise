@@ -48,7 +48,7 @@ class Solution:
 
 
 if __name__ == '__main__':
-    l1 = ListNode.create_linkedlist([1, 1])
-    l2 = ListNode.create_linkedlist([9, 9])
+    l1 = ListNode.create_linked_list([1, 1])
+    l2 = ListNode.create_linked_list([9, 9])
     result = Solution().addTwoNumbers(l1, l2)
     print(result)

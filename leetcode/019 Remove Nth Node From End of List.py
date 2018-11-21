@@ -48,6 +48,6 @@ class Solution:
 
 
 if __name__ == '__main__':
-    linkedlist = ListNode.create_linkedlist([1, 2, 3, 4, 5])
-    result = Solution().removeNthFromEnd(linkedlist, 5)
+    linked_list = ListNode.create_linked_list([1, 2, 3, 4, 5])
+    result = Solution().removeNthFromEnd(linked_list, 5)
     print(result)

@@ -18,31 +18,7 @@ Example 2:
 Input: 1->1->1->2->3
 Output: 2->3
 """
-
-
-class ListNode(object):
-    def __init__(self, x):
-        self.val = x
-        self.next = None
-
-    @classmethod
-    def create_linkedlist(cls, nums):
-        if not nums:
-            return None
-        root = cls(nums[0])
-        temp = root
-        for i in nums[1:]:
-            temp.next = cls(i)
-            temp = temp.next
-        return root
-
-    def __str__(self):
-        list = [self.val]
-        t = self
-        while t.next:
-            t = t.next
-            list.append(t.val)
-        return '->'.join(str(i) for i in list)
+from utils import ListNode
 
 
 class Solution(object):
@@ -71,6 +47,6 @@ class Solution(object):
 
 
 if __name__ == '__main__':
-    linkedlist = ListNode.create_linkedlist([1, 2, 3, 3, 4, 4, 5])
-    result = Solution().deleteDuplicates(linkedlist)
+    list = ListNode.create_linked_list([1, 2, 3, 3, 4, 4, 5])
+    result = Solution().deleteDuplicates(list)
     print(result)

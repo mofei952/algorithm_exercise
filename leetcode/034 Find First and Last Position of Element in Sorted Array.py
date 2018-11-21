@@ -30,6 +30,7 @@ class Solution:
         :rtype: List[int]
         """
         result = [-1, -1]
+
         def find(max):
             low = 0
             high = len(nums) - 1
@@ -52,10 +53,12 @@ class Solution:
                     low = mid + 1
                 else:
                     high = mid - 1
+
         find(0)
         find(1)
         return result
 
+
 if __name__ == '__main__':
-    result = Solution().searchRange([5,7,7,8,8,10], 7)
+    result = Solution().searchRange([5, 7, 7, 8, 8, 10], 7)
     print(result)

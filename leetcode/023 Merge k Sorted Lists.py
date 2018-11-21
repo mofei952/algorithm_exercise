@@ -102,8 +102,8 @@ class Solution:
 
 if __name__ == '__main__':
     input = [
-        ListNode.create_linkedlist([0]),
-        ListNode.create_linkedlist([1]),
+        ListNode.create_linked_list([0]),
+        ListNode.create_linked_list([1]),
     ]
     result = Solution().mergeKLists3(input)
     print(result)

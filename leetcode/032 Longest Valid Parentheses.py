@@ -39,7 +39,6 @@ class Solution:
                     stack.append(i)
         stack.insert(0, -1)
         stack.append(len(s))
-        print(stack)
         longest = 0
         for i in range(1, len(stack)):
             num = stack[i] - stack[i - 1] - 1

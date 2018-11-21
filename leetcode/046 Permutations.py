@@ -44,6 +44,7 @@ class Solution:
             result.extend(list)
         return result
 
+
 if __name__ == '__main__':
-    result = Solution().permute([1, 2, 3,4,6])
+    result = Solution().permute([1, 2, 3, 4, 6])
     print(result)

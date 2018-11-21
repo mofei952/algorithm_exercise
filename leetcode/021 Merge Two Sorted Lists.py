@@ -13,31 +13,7 @@ Example:
 Input: 1->2->4, 1->3->4
 Output: 1->1->2->3->4->4
 """
-
-
-class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
-
-    @classmethod
-    def create_linkedlist(cls, nums):
-        if not nums:
-            return None
-        root = cls(nums[0])
-        temp = root
-        for i in nums[1:]:
-            temp.next = cls(i)
-            temp = temp.next
-        return root
-
-    def __str__(self):
-        list = [self.val]
-        t = self
-        while t.next:
-            t = t.next
-            list.append(t.val)
-        return '->'.join(str(i) for i in list)
+from utils import ListNode
 
 
 class Solution:
@@ -69,7 +45,7 @@ class Solution:
 
 
 if __name__ == '__main__':
-    list1 = ListNode.create_linkedlist([2, 3])
-    list2 = ListNode.create_linkedlist([1, 2])
+    list1 = ListNode.create_linked_list([2, 3])
+    list2 = ListNode.create_linked_list([1, 2])
     result = Solution().mergeTwoLists(list1, list2)
     print(result)
