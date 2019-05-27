@@ -7,9 +7,21 @@
 # @Software: PyCharm
 
 import random
+import time
 from copy import copy
+from functools import wraps
 
-from study.utils import speed_test
+
+def speed_test(func):
+    @wraps(func)
+    def inner(*args):
+        t1 = time.perf_counter()
+        result = func(*args)
+        t2 = time.perf_counter()
+        print(func.__doc__, t2 - t1)
+        return result
+
+    return inner
 
 
 @speed_test
@@ -86,15 +98,91 @@ def merge(arr1, arr2):
 def merge_sort(arr):
     """归并排序"""
 
-    def _merge_sort(arr):
-        if len(arr) <= 1:
-            return arr
-        mid = len(arr) // 2
-        a = _merge_sort(arr[:mid])
-        b = _merge_sort(arr[mid:])
+    def _merge_sort(arr, low, high):
+        if high == low:
+            return [arr[low]]
+        mid = (low + high) // 2
+        a = _merge_sort(arr, low, mid)
+        b = _merge_sort(arr, mid + 1, high)
         return merge(a, b)
 
-    return _merge_sort(arr)
+    return _merge_sort(arr, 0, len(arr) - 1)
+
+
+def quick(arr, low, high):
+    key = arr[low]
+    while low < high:
+        while low < high and arr[high] >= key:
+            high -= 1
+        arr[low] = arr[high]
+        while low < high and arr[low] <= key:
+            low += 1
+        arr[high] = arr[low]
+    arr[low] = key
+    return low
+
+
+@speed_test
+def quick_sort(arr):
+    """快速排序"""
+
+    def _quick_sort(arr, low, high):
+        if low < high:
+            pos = quick(arr, low, high)
+            _quick_sort(arr, low, pos - 1)
+            _quick_sort(arr, pos + 1, high)
+        return arr
+
+    return _quick_sort(arr, 0, len(arr) - 1)
+
+
+def heap_adjust(arr, i, length):
+    left = 2 * i + 1
+    right = 2 * i + 2
+    min_index = i
+    if left < length and arr[left] > arr[i]:
+        min_index = left
+    if right < length and arr[right] > arr[i] and arr[right] > arr[left]:
+        min_index = right
+    if min_index != i:
+        arr[i], arr[min_index] = arr[min_index], arr[i]
+        heap_adjust(arr, min_index, length)
+
+
+@speed_test
+def heap_sort(arr):
+    """堆排序"""
+    for i in range(len(arr) // 2 - 1, -1, -1):
+        heap_adjust(arr, i, len(arr))
+    for i in range(len(arr) - 1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]
+        heap_adjust(arr, 0, i)
+    return arr
+
+
+@speed_test
+def counting_sort(arr):
+    """计数排序"""
+    max = arr[0]
+    for v in arr:
+        if v > max:
+            max = v
+    bucket = [0] * (max + 1)
+    for v in arr:
+        bucket[v] += 1
+    i = 0
+    for j in range(len(bucket)):
+        count = bucket[j]
+        while count:
+            arr[i] = j
+            i += 1
+            count -= 1
+    return arr
+
+
+@speed_test
+def bucket_sort(arr):
+    pass
 
 
 if __name__ == '__main__':
@@ -107,3 +195,7 @@ if __name__ == '__main__':
     assert insert_sort(copy(data)) == result
     assert shell_sort(copy(data)) == result
     assert merge_sort(copy(data)) == result
+    assert quick_sort(copy(data)) == result
+    assert heap_sort(copy(data)) == result
+    # print(counting_sort(copy(data)))
+    assert counting_sort(copy(data)) == result
