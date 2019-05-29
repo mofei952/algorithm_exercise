@@ -109,5 +109,29 @@ def cocktail_sort1(arr):
     return arr
 ```
 
+### 鸡尾酒排序优化2
 
+具有冒泡排序优化2和鸡尾酒排序优化1的优点
+
+最好、最坏、平均时间复杂度分别为O(n)，O(n^2)，O(n^2)
+
+```python
+def cocktail_sort2(arr):
+    low = 0
+    high = len(arr) - 1
+    while low < high:
+        pos = low
+        for i in range(low, high):
+            if arr[i] > arr[i + 1]:
+                arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                pos = i
+        high = pos
+        pos = high
+        for i in range(high, low, -1):
+            if arr[i] < arr[i - 1]:
+                arr[i], arr[i - 1] = arr[i - 1], arr[i]
+                pos = i
+        low = pos
+    return arr
+```
 
