@@ -9,7 +9,7 @@
 import random
 from copy import copy
 
-from study.sort.sort import running_time
+from study.util import running_time
 
 
 @running_time
@@ -111,6 +111,7 @@ def cocktail_sort2(arr):
 
 if __name__ == '__main__':
     count = 1000
+
     # 对于随机序列，鸡尾酒排序优化12稍快一点
     # data = [random.randint(-count, count) for i in range(count)]
     # 对于已经有序的序列，冒泡排序优化1的效率比一般冒泡快，鸡尾酒排序优化1比鸡尾酒排序快
@@ -120,10 +121,10 @@ if __name__ == '__main__':
     # 对于前面大部分有序的序列，鸡尾酒排序优化12比其他几种都快
     data = [i for i in range(count)] + [1]
 
-    sort_data = sorted(data)
-    assert bubble_sort(copy(data)) == sort_data
-    assert bubble_sort1(copy(data)) == sort_data
-    assert bubble_sort2(copy(data)) == sort_data
-    assert cocktail_sort(copy(data)) == sort_data
-    assert cocktail_sort1(copy(data)) == sort_data
-    assert cocktail_sort2(copy(data)) == sort_data
+    sorted_data = sorted(data)
+    assert bubble_sort(copy(data)) == sorted_data
+    assert bubble_sort1(copy(data)) == sorted_data
+    assert bubble_sort2(copy(data)) == sorted_data
+    assert cocktail_sort(copy(data)) == sorted_data
+    assert cocktail_sort1(copy(data)) == sorted_data
+    assert cocktail_sort2(copy(data)) == sorted_data
