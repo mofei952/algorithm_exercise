@@ -59,7 +59,7 @@ def binary_insert_sort(arr):
 
 
 if __name__ == '__main__':
-    count = 10000
+    count = 1000
     data = [random.randint(-count, count) for i in range(count)]
 
     sorted_data = sorted(data)

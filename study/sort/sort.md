@@ -135,3 +135,109 @@ def cocktail_sort2(arr):
     return arr
 ```
 
+## 选择排序
+
+### 一般选择排序
+
+最好、最坏、平均时间复杂度分别为O(n^2)，O(n^2)，O(n^2)
+
+```python
+def select_sort(arr):
+    for i in range(len(arr) - 1):
+        min = arr[i]
+        min_index = i
+        for j in range(i + 1, len(arr)):
+            if arr[j] < min:
+                min = arr[j]
+                min_index = j
+        arr[i], arr[min_index] = arr[min_index], arr[i]
+    return arr
+```
+
+#### 选择排序优化
+
+每趟遍历同时将最大值和最小值找出来，分别和最左边和最右边交换，从而减少遍历的次数
+
+最好、最坏、平均时间复杂度分别为O(n^2)，O(n^2)，O(n^2)
+
+```python
+def select_sort1(arr):
+    low = 0
+    high = len(arr) - 1
+    while low < high:
+        min = max = low
+        for i in range(low, high + 1):
+            if arr[i] < arr[min]:
+                min = i
+            if arr[i] > arr[max]:
+                max = i
+        if arr[min] != arr[low]:
+            arr[low], arr[min] = arr[min], arr[low]
+        if max == low:
+            max = min
+        if arr[max] != arr[high]:
+            arr[high], arr[max] = arr[max], arr[high]
+        low += 1
+        high -= 1
+    return arr
+```
+
+## 插入排序
+
+### 一般插入排序
+
+最好、最坏、平均时间复杂度分别为O(n)，O(n^2)，O(n^2)
+
+```python
+def insert_sort(arr):
+    for i in range(1, len(arr)):
+        j = i - 1
+        while j >= 0 and arr[j] > arr[j + 1]:
+            arr[j], arr[j + 1] = arr[j + 1], arr[j]
+            j -= 1
+    return arr
+```
+
+### 插入排序优化
+
+通过减少交换次数优化效率
+
+最好、最坏、平均时间复杂度分别为O(n)，O(n^2)，O(n^2)
+
+```python
+def insert_sort1(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+    return arr
+```
+
+### 二分插入排序
+
+使用二分查找来却查找插入的位置，可以减少查找的时间
+
+最好、最坏、平均时间复杂度分别为O(n)，O(n^2)，O(n^2)
+
+```python
+def binary_search(arr, low, high, key):
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] > key:
+            high = mid - 1
+        else:
+            low = mid + 1
+    return low
+    
+def binary_insert_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        pos = binary_search(arr, 0, i - 1, key)
+        for j in range(i - 1, pos - 1, -1):
+            arr[j + 1] = arr[j]
+        arr[pos] = key
+    return arr
+```
