@@ -6,7 +6,7 @@
 # @File    : test_evaluation.py
 # @Software: PyCharm
 
-from solve_problems.arithmetic_expression_evaluation.arithmetic_expression_evaluation import evaluation
+from solve_problems.arithmetic_expression_evaluation.evaluation1 import evaluation
 
 
 def test1():
@@ -21,8 +21,8 @@ def test3():
     assert evaluation('1234*5678') == 1234 * 5678
 
 
-# def test4():
-#     assert evaluation('1.2+2.5') == 1.2 + 2.5
+def test4():
+    assert evaluation('1.2+2.5') == 1.2 + 2.5
 
 
 def test5():
@@ -30,10 +30,10 @@ def test5():
 
 
 def test6():
-    assert evaluation('23-20+2*(1+2*3-5)/4-2*3+3') == 23 - 20 + 2 * (1 + 2 * 3 - 5) / 4 - 2 * 3 + 3
+    assert evaluation('23-20+2*(1+2*3-5)/4-2*3+3.6') == 23 - 20 + 2 * (1 + 2 * 3 - 5) / 4 - 2 * 3 + 3.6
 
 
 if __name__ == '__main__':
     import pytest
 
-    pytest.main(['test_evaluation.py'])
+    pytest.main(['test_evaluation1.py'])

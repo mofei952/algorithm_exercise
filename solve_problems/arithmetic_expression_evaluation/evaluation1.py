@@ -3,35 +3,50 @@
 
 # @Author  : mofei
 # @Time    : 2019/10/21 21:27
-# @File    : arithmetic_expression_evaluation.py
+# @File    : evaluation1.py
 # @Software: PyCharm
 
+"""
+算术表达式求值
+
+1. 中缀表达式字符串转换为中缀表达式序列
+2. 中缀表达式序列转换为后缀表达式序列
+3. 后缀表达式计算结果
+"""
+
+import re
 from typing import List
 
 
-def priority(op):
-    """运算符优先级"""
-    if op in ['+', '-']:
-        return 1
-    elif op in ['*', '/']:
-        return 2
-    return -1
+def evaluation(expression):
+    """算术表达式求值"""
+    infix = expression_convert(expression)
+    print(infix)
+    postfix = infix2postfix(infix)
+    print(postfix)
+    res = postfix_evaluation(postfix)
+    print(res)
+    return res
 
 
 def expression_convert(expression: str) -> List:
     """算术表达式字符串转为列表"""
+
+    # https://blog.csdn.net/u012047933/article/details/38365541
+    # strs = re.split(r'(?<=[\d\)])(\-)', expression) # 零宽正向后行断言
+
+    strs = re.split(r'([\+\*\/\(\)])|((?<=[\d\)])\-)', expression)
+    print(strs)
     arr = []
-    flag = False  # 标记前一个元素是否为数字
-    for i, c in enumerate(expression):
-        if '0' <= c <= '9':
-            if flag:
-                arr[-1] = arr[-1] * 10 + int(c)
-            else:
-                arr.append(int(c))
-            flag = True
+    for i in strs:
+        if not i:
+            continue
+        if i in ['(', ')', '+', '-', '*', '/']:
+            arr.append(i)
         else:
-            arr.append(c)
-            flag = False
+            assert re.search(r'^-?\d+(\.\d+)?$', i), 'illegal number: {}'.format(i)
+            converter = float if '.' in i else int
+            arr.append(converter(i))
     return arr
 
 
@@ -40,7 +55,7 @@ def infix2postfix(infix: List) -> List:
     postfix = []
     stack = []
     for c in infix:
-        if isinstance(c, int):
+        if isinstance(c, (int, float)):
             postfix.append(c)
         elif c == '(':
             stack.append(c)
@@ -57,11 +72,20 @@ def infix2postfix(infix: List) -> List:
     return postfix
 
 
-# 后缀表达式求值
+def priority(op):
+    """运算符优先级"""
+    if op in ['+', '-']:
+        return 1
+    elif op in ['*', '/']:
+        return 2
+    return -1
+
+
 def postfix_evaluation(postfix: List) -> float:
+    """后缀表达式求值"""
     stack = []
     for c in postfix:
-        if isinstance(c, int):
+        if isinstance(c, (int, float)):
             stack.append(c)
         else:
             op2 = stack.pop()
@@ -79,7 +103,7 @@ def postfix_evaluation(postfix: List) -> float:
 
 
 if __name__ == '__main__':
-    expression = '23-20+2*(1+2*3-5)/4-2*3+3'
+    expression = '-23-20+2*(1+2*3-5)/4-2*3+3.6'
     print('中缀表达式字符串：', expression)
 
     infix = expression_convert(expression)
