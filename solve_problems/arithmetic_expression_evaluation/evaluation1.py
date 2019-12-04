@@ -32,22 +32,18 @@ def evaluation(expression):
 def expression_convert(expression: str) -> List:
     """算术表达式字符串转为列表"""
 
-    # https://blog.csdn.net/u012047933/article/details/38365541
-    # strs = re.split(r'(?<=[\d\)])(\-)', expression) # 零宽正向后行断言
+    strs = re.split(r'([\+\*\/\(\)]|(?<=[\d\)])\-)', expression)
+    strs = list(filter(None, strs))  # 去除值为假的元素
 
-    strs = re.split(r'([\+\*\/\(\)])|((?<=[\d\)])\-)', expression)
-    print(strs)
-    arr = []
-    for i in strs:
-        if not i:
+    # 验证格式正确性 number转换为对应类型
+    for i, s in enumerate(strs):
+        if s in ['(', ')', '+', '-', '*', '/']:
             continue
-        if i in ['(', ')', '+', '-', '*', '/']:
-            arr.append(i)
-        else:
-            assert re.search(r'^-?\d+(\.\d+)?$', i), 'illegal number: {}'.format(i)
-            converter = float if '.' in i else int
-            arr.append(converter(i))
-    return arr
+        assert re.search(r'^-?\d+(\.\d+)?$', s), 'illegal number: {}'.format(i)
+        converter = float if '.' in s else int
+        strs[i] = converter(s)
+
+    return strs
 
 
 def infix2postfix(infix: List) -> List:

@@ -26,11 +26,15 @@ def test4():
 
 
 def test5():
-    assert evaluation('2+(2+3*2)*3-5') == 2 + (2 + 3 * 2) * 3 - 5
+    assert evaluation('-23+11') == -23 + 11
 
 
 def test6():
-    assert evaluation('23-20+2*(1+2*3-5)/4-2*3+3.6') == 23 - 20 + 2 * (1 + 2 * 3 - 5) / 4 - 2 * 3 + 3.6
+    assert evaluation('2+(2+3*2)*3-5') == 2 + (2 + 3 * 2) * 3 - 5
+
+
+def test7():
+    assert evaluation('-23-20+2*(-1+2*-3-5)/-4-2*3+3.6') == -23 - 20 + 2 * (-1 + 2 * -3 - 5) / -4 - 2 * 3 + 3.6
 
 
 if __name__ == '__main__':
