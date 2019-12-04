@@ -91,21 +91,39 @@ class Node():
 
 def infix_to_binary_tree(infix, start, end):
     """中缀表达式转二叉树"""
+
+    # 正则匹配到是数字格式，则创建一个数字node并返回
     if re.search('^-?\d+(\.\d+)?$', infix[start:end]):
         return Node(float(infix[start:end]))
 
-    p1 = p2 = -1
+    p1 = -1  # 最后一个+或-符号的位置
+    p2 = -1  # 最后一个*或/的位置
+    flag = 0  # flag为0代表当前位置在括号外，flag>0代表当前位置在n层括号嵌套中
+    # 遍历获取到p1和p2的值
     for i in range(start, end):
         x = infix[i]
-        if x in ['+', '-']:
-            p1 = i
-        elif x in ['*', '/']:
-            p2 = i
-    p = p1 if p1 != -1 else p2
+        if x == '(':
+            flag += 1
+        elif x == ')':
+            flag -= 1
+        if flag == 0:
+            if x in ['+', '-']:
+                p1 = i
+            elif x in ['*', '/']:
+                p2 = i
 
-    node = Node(infix[p])
-    node.left = infix_to_binary_tree(infix, start, p)
-    node.right = infix_to_binary_tree(infix, p + 1, end)
+    # 优先取+或-符号
+    p = p1 if p1 != -1 else p2
+    if p != -1:
+        # p位置的运算符号作为根节点，递归创建它的左右节点
+        node = Node(infix[p])
+        print(infix[p])
+        node.left = infix_to_binary_tree(infix, start, p)
+        node.right = infix_to_binary_tree(infix, p + 1, end)
+    else:
+        # 括号外没有运算符号，说明这个表达式被括号包围，去掉括号递归转换
+        node = infix_to_binary_tree(infix, start + 1, end - 1)
+
     return node
 
 
@@ -126,9 +144,7 @@ def binary_tree_evaluation(node):
 
 
 if __name__ == '__main__':
-    s = "-11.2+22*3+44.1"
-    # s= "14+23*31*411+522*60+72/6-45+13*12"
-    # s = '23-20+2*(1+2*3-5)/4-2*3+3'
+    s = '-23-20+2*(1+2*3-5)/4-2*3+3.6'
 
     node = infix_to_binary_tree(s, 0, len(s))
     print('二叉树：', node)
