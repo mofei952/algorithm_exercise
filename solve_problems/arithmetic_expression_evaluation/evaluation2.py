@@ -7,16 +7,18 @@
 # @Software: PyCharm
 
 """
-算术表达式求值
+算术表达式求值方案2
 
-1. 中缀表达式建立二叉树
-2. 表达式二叉树计算结果
+1. 中缀表达式字符串转换为中缀表达式序列
+2. 中缀表达式序列建立二叉树
+3. 表达式二叉树计算结果
 """
 
-# https://blog.csdn.net/mhxy199288/article/details/38025319
 # https://www.jianshu.com/p/6217a257bad2
 
-import re
+from typing import List
+
+from solve_problems.arithmetic_expression_evaluation.common import expression_convert
 
 
 def _build_tree_string(root, curr_index, index=False, delimiter='-'):
@@ -89,12 +91,12 @@ class Node():
         return '\n' + '\n'.join((line.rstrip() for line in lines))
 
 
-def infix_to_binary_tree(infix, start, end):
+def infix_to_binary_tree(infix: List, start, end) -> Node:
     """中缀表达式转二叉树"""
 
     # 正则匹配到是数字格式，则创建一个数字node并返回
-    if re.search('^-?\d+(\.\d+)?$', infix[start:end]):
-        return Node(float(infix[start:end]))
+    if end - start == 1:
+        return Node(float(infix[start]))
 
     p1 = -1  # 最后一个+或-符号的位置
     p2 = -1  # 最后一个*或/的位置
@@ -127,7 +129,7 @@ def infix_to_binary_tree(infix, start, end):
     return node
 
 
-def binary_tree_evaluation(node):
+def binary_tree_evaluation(node) -> float:
     """二叉树求值"""
     if node.value not in ['+', '-', '*', '/']:
         return float(node.value)
@@ -143,11 +145,22 @@ def binary_tree_evaluation(node):
         return v1 / v2
 
 
+def evaluation(expression):
+    """算术表达式求值"""
+    infix = expression_convert(expression)
+    tree = infix_to_binary_tree(infix, 0, len(infix))
+    result = binary_tree_evaluation(tree)
+    return result
+
+
 if __name__ == '__main__':
-    s = '-23-20+2*(1+2*3-5)/4-2*3+3.6'
+    expression = '-23-20+2*(-1+2*-3-5)/-4-2*3+3.6'
 
-    node = infix_to_binary_tree(s, 0, len(s))
-    print('二叉树：', node)
+    infix = expression_convert(expression)
+    print('中缀表达式序列：', infix)
 
-    result = binary_tree_evaluation(node)
+    tree = infix_to_binary_tree(infix, 0, len(infix))
+    print('二叉树：', tree)
+
+    result = binary_tree_evaluation(tree)
     print('结果：', result)

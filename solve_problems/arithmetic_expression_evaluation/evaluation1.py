@@ -7,43 +7,16 @@
 # @Software: PyCharm
 
 """
-算术表达式求值
+算术表达式求值方案1
 
 1. 中缀表达式字符串转换为中缀表达式序列
 2. 中缀表达式序列转换为后缀表达式序列
 3. 后缀表达式计算结果
 """
 
-import re
 from typing import List
 
-
-def evaluation(expression):
-    """算术表达式求值"""
-    infix = expression_convert(expression)
-    print(infix)
-    postfix = infix2postfix(infix)
-    print(postfix)
-    res = postfix_evaluation(postfix)
-    print(res)
-    return res
-
-
-def expression_convert(expression: str) -> List:
-    """算术表达式字符串转为列表"""
-
-    strs = re.split(r'([\+\*\/\(\)]|(?<=[\d\)])\-)', expression)
-    strs = list(filter(None, strs))  # 去除值为假的元素
-
-    # 验证格式正确性 number转换为对应类型
-    for i, s in enumerate(strs):
-        if s in ['(', ')', '+', '-', '*', '/']:
-            continue
-        assert re.search(r'^-?\d+(\.\d+)?$', s), 'illegal number: {}'.format(i)
-        converter = float if '.' in s else int
-        strs[i] = converter(s)
-
-    return strs
+from solve_problems.arithmetic_expression_evaluation.common import expression_convert
 
 
 def infix2postfix(infix: List) -> List:
@@ -98,8 +71,16 @@ def postfix_evaluation(postfix: List) -> float:
     return stack[-1]
 
 
+def evaluation(expression):
+    """算术表达式求值"""
+    infix = expression_convert(expression)
+    postfix = infix2postfix(infix)
+    res = postfix_evaluation(postfix)
+    return res
+
+
 if __name__ == '__main__':
-    expression = '-23-20+2*(1+2*3-5)/4-2*3+3.6'
+    expression = '-23-20+2*(-1+2*-3-5)/-4-2*3+3.6'
     print('中缀表达式字符串：', expression)
 
     infix = expression_convert(expression)
